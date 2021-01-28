@@ -28,6 +28,7 @@ function App() {
         body: JSON.stringify({ name, score }),
       });
     } catch (err) {
+      // do nothing
     } finally {
       setName(INITIAL_NAME);
       setScore(INITIAL_SCORE);
