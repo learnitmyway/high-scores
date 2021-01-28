@@ -15,7 +15,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "lint": "eslint --config .eslintrc.js 'src/**/*.js' --max-warnings 0",
-    "test": "react-scripts test",
+    "precommit": "yarn lint && yarn test",
+    "test": "CI=true react-scripts test",
+    "watch": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
