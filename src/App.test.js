@@ -27,7 +27,7 @@ test("displays and submits data and then resets it", async () => {
 
   expect(axios.post).toHaveBeenCalledWith(
     "api/high-scores",
-    { name: "David", score: 180 },
+    { name: "David", score: 180, clicks: 2 },
     { headers: { "Content-Type": "application/json" } }
   );
 
