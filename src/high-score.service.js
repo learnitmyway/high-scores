@@ -1,11 +1,15 @@
+import axios from "axios";
+
 async function updateHighScore({ name, score }) {
-  await fetch("https://codesandbox.io/", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ name, score }),
-  });
+  await axios.post(
+    "/high-scores",
+    { name, score },
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
 }
 
 export { updateHighScore };
