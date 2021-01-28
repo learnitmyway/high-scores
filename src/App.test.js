@@ -15,6 +15,7 @@ test("displays and submits data and then resets it", async () => {
   render(<App />);
 
   expect(screen.getByText("score 0")).toBeInTheDocument();
+  expect(screen.getByText("click counter 0")).toBeInTheDocument();
 
   userEvent.click(screen.getByText("generate score"));
   userEvent.click(screen.getByText("generate score"));
@@ -22,6 +23,7 @@ test("displays and submits data and then resets it", async () => {
   userEvent.type(screen.getByLabelText("Name"), "David");
 
   expect(screen.getByText("score 180")).toBeInTheDocument();
+  expect(screen.getByText("click counter 2")).toBeInTheDocument();
 
   userEvent.click(screen.getByText("Submit"));
 
@@ -32,4 +34,5 @@ test("displays and submits data and then resets it", async () => {
   );
 
   await waitFor(() => expect(screen.getByText("score 0")).toBeInTheDocument());
+  expect(screen.getByText("click counter 0")).toBeInTheDocument();
 });
