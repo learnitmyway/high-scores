@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { updateHighScore } from "./high-score.service";
 
 const INITIAL_NAME = "";
 const INITIAL_SCORE = 0;
@@ -20,13 +21,7 @@ function App() {
 
   async function handleSubmit() {
     try {
-      await fetch("https://codesandbox.io/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, score }),
-      });
+      await updateHighScore({ name, score });
     } catch (err) {
       // do nothing
     } finally {
