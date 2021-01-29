@@ -36,6 +36,14 @@ function App() {
       <section>
         <div>click counter {clickCount}</div>
         <div>score {score}</div>
+        <button
+          className="btn btn-primary"
+          type="button"
+          onClick={handleScore}
+          disabled={clickCount >= 10}
+        >
+          UPDATE SCORE
+        </button>
         <input
           className="retro-input"
           placeholder="NAME"
@@ -45,16 +53,6 @@ function App() {
         <button className="btn btn-danger" type="button" onClick={handleSubmit}>
           Submit
         </button>
-        <div>
-          <button
-            className="btn btn-primary"
-            type="button"
-            onClick={handleScore}
-            disabled={clickCount >= 10}
-          >
-            UPDATE SCORE
-          </button>
-        </div>
       </section>
     </div>
   );
