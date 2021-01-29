@@ -42,7 +42,7 @@ function App() {
           value={name}
           onChange={handleChange}
         />
-        <button type="button" onClick={handleSubmit}>
+        <button className="btn btn-danger" type="button" onClick={handleSubmit}>
           Submit
         </button>
         <div>
