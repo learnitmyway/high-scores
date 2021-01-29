@@ -44,20 +44,14 @@ function App() {
           Submit
         </button>
         <div>
-          <label>
-            <input
-              style={{
-                height: "100px",
-                width: "100px",
-                backgroundColor: "red",
-                borderRadius: "50%",
-              }}
-              type="button"
-              onClick={handleScore}
-              disabled={clickCount >= 10}
-            />
-            <div>generate score</div>
-          </label>
+          <button
+            className="btn btn-primary"
+            type="button"
+            onClick={handleScore}
+            disabled={clickCount >= 10}
+          >
+            UPDATE SCORE
+          </button>
         </div>
       </section>
     </div>
