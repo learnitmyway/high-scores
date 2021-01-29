@@ -36,10 +36,12 @@ function App() {
       <section>
         <div>click counter {clickCount}</div>
         <div>score {score}</div>
-        <label>
-          {"Name "}
-          <input value={name} onChange={handleChange} />
-        </label>
+        <input
+          className="retro-input"
+          placeholder="NAME"
+          value={name}
+          onChange={handleChange}
+        />
         <button type="button" onClick={handleSubmit}>
           Submit
         </button>
