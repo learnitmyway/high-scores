@@ -15,7 +15,8 @@ function App() {
   }
 
   function handleScore() {
-    setScore((score) => score + Math.floor(Math.random() * 200 - 100));
+    const aNumberBetweenMinus100And100 = Math.floor(Math.random() * 200 - 100);
+    setScore((score) => score + aNumberBetweenMinus100And100);
     setClickCount((clickCount) => setClickCount(clickCount + 1));
   }
 
