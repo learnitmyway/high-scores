@@ -1,11 +1,11 @@
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import axios from "axios";
+import { getHighScores, updateHighScore } from "./high-score.service";
 
 import App from "./App";
 
-jest.mock("axios");
+jest.mock("./high-score.service");
 
 function highScoresSample() {
   return [
@@ -26,14 +26,12 @@ function highScoresSample() {
 
 describe("App", () => {
   beforeEach(() => {
-    axios.get.mockResolvedValue({ data: highScoresSample() });
+    getHighScores.mockResolvedValue(highScoresSample());
   });
   it("displays high scores", async () => {
     render(<App />);
 
-    expect(axios.get).toHaveBeenCalledWith("api/high-scores", {
-      headers: { "Content-Type": "application/json" },
-    });
+    expect(getHighScores).toHaveBeenCalledWith();
 
     await screen.findByText(highScoresSample()[0].name);
 
@@ -69,11 +67,11 @@ describe("App", () => {
     userEvent.type(screen.getByLabelText("Name"), "David");
     userEvent.click(screen.getByText("Submit"));
 
-    expect(axios.post).toHaveBeenCalledWith(
-      "api/high-scores",
-      { name: "David", score: 180, clicks: 2 },
-      { headers: { "Content-Type": "application/json" } }
-    );
+    expect(updateHighScore).toHaveBeenCalledWith({
+      name: "David",
+      score: 180,
+      clickCount: 2,
+    });
 
     await waitFor(() =>
       expect(screen.getByText("score 0")).toBeInTheDocument()
