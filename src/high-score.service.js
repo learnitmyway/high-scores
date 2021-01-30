@@ -7,14 +7,8 @@ async function getHighScores() {
       "Content-Type": "application/json",
     },
   });
-  const dataIncludingCurrentPlayer = [
-    ...data,
-    { name: "Current Player", totalPoints: 0, clicks: 0 },
-  ];
-  const sorted = [...dataIncludingCurrentPlayer].sort(
-    (a, b) => b.totalPoints - a.totalPoints
-  );
-  const sliced = sorted.slice(0, 11);
+  const sorted = [...data].sort((a, b) => b.totalPoints - a.totalPoints);
+  const sliced = sorted.slice(0, 10);
   return sliced.map((entry) => ({
     ...entry,
     averagePoints:

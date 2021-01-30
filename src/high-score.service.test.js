@@ -22,24 +22,6 @@ describe("high-score.service", () => {
       });
     });
 
-    it("inserts current player into high scores", async () => {
-      const data = [
-        { name: "Jane Doe", totalPoints: 157, clicks: 5 },
-        { name: "Jily Allen", totalPoints: -234, clicks: 8 },
-      ];
-      axios.get.mockResolvedValue({ data });
-
-      const highScores = await getHighScores();
-
-      expect(highScores[1]).toEqual({
-        name: "Current Player",
-        totalPoints: 0,
-        clicks: 0,
-        averagePoints: 0,
-        id: expect.any(String),
-      });
-    });
-
     it("sorts by totalPoints descending", async () => {
       const data = [
         { name: "Jane Doe", totalPoints: 157, clicks: 5 },
@@ -87,7 +69,7 @@ describe("high-score.service", () => {
       expect(highScores[0].averagePoints).toBe(0);
     });
 
-    it("limits high scores to 11 entries", async () => {
+    it("limits high scores to 10 entries", async () => {
       const data = [];
       for (let i = 0; i < 12; i++) {
         data.push({
@@ -103,7 +85,7 @@ describe("high-score.service", () => {
 
       const highScores = await getHighScores();
 
-      expect(highScores.length).toBe(11);
+      expect(highScores.length).toBe(10);
     });
   });
 

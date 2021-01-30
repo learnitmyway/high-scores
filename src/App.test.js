@@ -25,13 +25,6 @@ function highScoresSample() {
       averagePoints: 31.4,
       id: "64c174ccfc516e0042c9accf9037162397717fe0",
     },
-    {
-      name: "Current Plater",
-      totalPoints: 0,
-      clicks: 0,
-      averagePoints: 0,
-      id: "an-id",
-    },
   ];
 }
 
@@ -45,7 +38,6 @@ describe("App", () => {
     randomSpy.mockRestore();
   });
 
-  // eslint-disable-next-line jest/no-conditional-expect
   it("displays high scores", async () => {
     render(<App />);
 
@@ -56,17 +48,11 @@ describe("App", () => {
     highScoresSample().forEach(
       ({ name, totalPoints, clicks, averagePoints }) => {
         const row = screen.getByText(name).closest("div");
-        const { getByText, getAllByText } = within(row);
+        const { getByText } = within(row);
         expect(getByText(name)).toBeInTheDocument();
-        /* eslint-disable jest/no-conditional-expect */
-        if (clicks === 0) {
-          expect(getAllByText(0)).toHaveLength(3);
-        } else {
-          expect(getByText(totalPoints)).toBeInTheDocument();
-          expect(getByText(clicks)).toBeInTheDocument();
-          expect(getByText(averagePoints)).toBeInTheDocument();
-        }
-        /* eslint-disable jest/no-conditional-expect */
+        expect(getByText(totalPoints)).toBeInTheDocument();
+        expect(getByText(clicks)).toBeInTheDocument();
+        expect(getByText(averagePoints)).toBeInTheDocument();
       }
     );
   });
