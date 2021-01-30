@@ -6,7 +6,10 @@ async function getHighScores() {
       "Content-Type": "application/json",
     },
   });
-  return data;
+  return data.map((entry) => ({
+    ...entry,
+    averagePoints: Number((entry.totalPoints / entry.clicks).toFixed(2)),
+  }));
 }
 
 async function updateHighScore({ name, score, clickCount }) {

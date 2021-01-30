@@ -4,31 +4,32 @@ import { getHighScores, updateHighScore } from "./high-score.service";
 
 jest.mock("axios");
 
-function highScoresSample() {
-  return [
-    { name: "Jane Doe", totalPoints: 157, clicks: 5 },
-    { name: "Lily Allen", totalPoints: 234, clicks: 8 },
-    { name: "John Smith", totalPoints: 390, clicks: 9 },
-    { name: "Dane Joe", totalPoints: 197, clicks: 5 },
-    { name: "Wily Ellen", totalPoints: 214, clicks: 9 },
-    { name: "Son Mith", totalPoints: 990, clicks: 10 },
-    { name: "Fane Doe", totalPoints: -157, clicks: 3 },
-    { name: "Dilly Allen", totalPoints: -234, clicks: 9 },
-    { name: "Ron Smith", totalPoints: -390, clicks: 5 },
-    { name: "Fane Roe", totalPoints: -197, clicks: 4 },
-    { name: "Nilly Allen", totalPoints: -214, clicks: 9 },
-    { name: "Pon Smith", totalPoints: -990, clicks: 10 },
-  ];
-}
-
 describe("high-score.service", () => {
-  it("fetches high scores", async () => {
-    axios.get.mockResolvedValue({ data: highScoresSample() });
+  it("extends high score entry with average points", async () => {
+    const data = [
+      { name: "Jane Doe", totalPoints: 157, clicks: 5 },
+      { name: "Lily Allen", totalPoints: 234, clicks: 8 },
+    ];
+    axios.get.mockResolvedValue({
+      data,
+    });
+
     const highScores = await getHighScores();
+
+    const expected = [...data];
+    expected[0] = { ...data[0], averagePoints: 31.4 };
+    expected[1] = { ...data[1], averagePoints: 29.25 };
+    expect(highScores).toEqual(expected);
+  });
+  it("fetches high scores", async () => {
+    const data = [];
+    axios.get.mockResolvedValue({ data });
+
+    await getHighScores();
+
     expect(axios.get).toHaveBeenCalledWith("api/high-scores", {
       headers: { "Content-Type": "application/json" },
     });
-    expect(highScores).toEqual(highScoresSample());
   });
 
   it("updates high scores", async () => {

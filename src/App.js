@@ -48,6 +48,7 @@ function App() {
               <span>{highScore.name} </span>
               <span>{highScore.totalPoints} </span>
               <span>{highScore.clicks} </span>
+              <span>{highScore.averagePoints} </span>
             </div>
           ))}
         <div>score {score}</div>
