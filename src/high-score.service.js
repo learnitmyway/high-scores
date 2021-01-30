@@ -11,7 +11,10 @@ async function getHighScores() {
   const sliced = sorted.slice(0, 10);
   return sliced.map((entry) => ({
     ...entry,
-    averagePoints: Number((entry.totalPoints / entry.clicks).toFixed(2)),
+    averagePoints:
+      entry.clicks > 0
+        ? Number((entry.totalPoints / entry.clicks).toFixed(2))
+        : 0,
     id: hash(entry),
   }));
 }
