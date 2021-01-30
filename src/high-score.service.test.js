@@ -29,7 +29,7 @@ describe("high-score.service", () => {
       expect(highScores[0].name).toBe("Lily Allen");
     });
 
-    it("extends high score entry with average points", async () => {
+    it("extends high score entry with average points and a hashed id", async () => {
       const data = [{ name: "Jane Doe", totalPoints: 157, clicks: 5 }];
       axios.get.mockResolvedValue({
         data,
@@ -37,8 +37,11 @@ describe("high-score.service", () => {
 
       const highScores = await getHighScores();
 
-      expect(highScores).toEqual([{ ...data[0], averagePoints: 31.4 }]);
+      expect(highScores).toEqual([
+        { ...data[0], averagePoints: 31.4, id: expect.any(String) },
+      ]);
     });
+
     it("limits high scores to 10 entries", async () => {
       const data = [];
       for (let i = 0; i < 12; i++) {

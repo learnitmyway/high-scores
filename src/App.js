@@ -46,12 +46,13 @@ function App() {
     <div className="App">
       <section>
         {highScores &&
-          highScores.map((highScore, i) => (
-            <div key={i}>
-              <span>{highScore.name} </span>
-              <span>{highScore.totalPoints} </span>
-              <span>{highScore.clicks} </span>
-              <span>{highScore.averagePoints} </span>
+          highScores.map((entry) => (
+            <div key={entry.id}>
+              <span>{entry.name} </span>
+              <span>{entry.totalPoints} </span>
+              <span>{entry.clicks} </span>
+              <span>{entry.averagePoints} </span>
+              <span>{entry.id} </span>
             </div>
           ))}
         <div>score {score}</div>

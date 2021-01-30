@@ -1,4 +1,5 @@
 import axios from "axios";
+import hash from "object-hash";
 
 async function getHighScores() {
   const { data } = await axios.get("api/high-scores", {
@@ -11,6 +12,7 @@ async function getHighScores() {
   return sliced.map((entry) => ({
     ...entry,
     averagePoints: Number((entry.totalPoints / entry.clicks).toFixed(2)),
+    id: hash(entry),
   }));
 }
 

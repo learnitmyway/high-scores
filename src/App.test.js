@@ -11,8 +11,20 @@ let randomSpy;
 
 function highScoresSample() {
   return [
-    { name: "Lily Allen", totalPoints: 234, clicks: 8, averagePoints: 29.25 },
-    { name: "Jane Doe", totalPoints: 157, clicks: 5, averagePoints: 31.4 },
+    {
+      name: "Lily Allen",
+      totalPoints: 234,
+      clicks: 8,
+      averagePoints: 29.25,
+      id: "66b933a23017e192c41489caa45b01a6cf1a32a2",
+    },
+    {
+      name: "Jane Doe",
+      totalPoints: 157,
+      clicks: 5,
+      averagePoints: 31.4,
+      id: "64c174ccfc516e0042c9accf9037162397717fe0",
+    },
   ];
 }
 
@@ -114,7 +126,13 @@ describe("App", () => {
 
     getHighScores.mockResolvedValueOnce([
       ...highScoresSample(),
-      { name, totalPoints: 180, clicks: 2, averagePoints: 90 },
+      {
+        name,
+        totalPoints: 180,
+        clicks: 2,
+        averagePoints: 90,
+        id: "a-unique-id",
+      },
     ]);
 
     userEvent.click(screen.getByText("Send it!"));
