@@ -6,7 +6,8 @@ async function getHighScores() {
       "Content-Type": "application/json",
     },
   });
-  return data.map((entry) => ({
+  const sorted = [...data].sort((a, b) => b.totalPoints - a.totalPoints);
+  return sorted.map((entry) => ({
     ...entry,
     averagePoints: Number((entry.totalPoints / entry.clicks).toFixed(2)),
   }));

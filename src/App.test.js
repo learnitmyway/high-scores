@@ -9,23 +9,8 @@ jest.mock("./high-score.service");
 
 function highScoresSample() {
   return [
-    { name: "Jane Doe", totalPoints: 157, clicks: 5, averagePoints: 31.4 },
     { name: "Lily Allen", totalPoints: 234, clicks: 8, averagePoints: 29.25 },
-    { name: "John Smith", totalPoints: 390, clicks: 9, averagePoints: 43.33 },
-    { name: "Dane Joe", totalPoints: 197, clicks: 5, averagePoints: 39.4 },
-    { name: "Wily Ellen", totalPoints: 214, clicks: 9, averagePoints: 23.78 },
-    { name: "Son Mith", totalPoints: 990, clicks: 10, averagePoints: 99 },
-    { name: "Fane Doe", totalPoints: -157, clicks: 3, averagePoints: -52.33 },
-    { name: "Dilly Allen", totalPoints: -234, clicks: 9, averagePoints: -26 },
-    { name: "Ron Smith", totalPoints: -390, clicks: 5, averagePoints: -78 },
-    { name: "Fane Roe", totalPoints: -197, clicks: 4, averagePoints: -49.25 },
-    {
-      name: "Nilly Allen",
-      totalPoints: -214,
-      clicks: 9,
-      averagePoints: -23.78,
-    },
-    { name: "Pon Smith", totalPoints: -990, clicks: 10, averagePoints: -99 },
+    { name: "Jane Doe", totalPoints: 157, clicks: 5, averagePoints: 31.4 },
   ];
 }
 
