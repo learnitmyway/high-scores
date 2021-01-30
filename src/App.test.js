@@ -7,6 +7,8 @@ import App from "./App";
 
 jest.mock("./high-score.service");
 
+let randomSpy;
+
 function highScoresSample() {
   return [
     { name: "Lily Allen", totalPoints: 234, clicks: 8, averagePoints: 29.25 },
@@ -16,8 +18,14 @@ function highScoresSample() {
 
 describe("App", () => {
   beforeEach(() => {
+    randomSpy = jest.spyOn(global.Math, "random");
     getHighScores.mockResolvedValue(highScoresSample());
   });
+
+  afterEach(() => {
+    randomSpy.mockRestore();
+  });
+
   it("displays high scores", async () => {
     render(<App />);
 
@@ -37,17 +45,21 @@ describe("App", () => {
     );
   });
 
-  it("displays and submits data and then resets it", async () => {
-    const randomSpy = jest.spyOn(global.Math, "random");
+  it("displays initial score and clicks remaining, resets score and clicks remaining", async () => {
+    render(<App />);
+    await screen.findByText(highScoresSample()[0].name);
+
+    expect(screen.getByText("score 0")).toBeInTheDocument();
+    expect(screen.getByText("10 clicks remaining")).toBeInTheDocument();
+  });
+
+  it("updates score and clicks remaining", async () => {
     randomSpy.mockReturnValueOnce(0.9);
     randomSpy.mockReturnValueOnce(1);
 
     render(<App />);
 
     await screen.findByText(highScoresSample()[0].name);
-
-    expect(screen.getByText("score 0")).toBeInTheDocument();
-    expect(screen.getByText("10 clicks remaining")).toBeInTheDocument();
 
     userEvent.click(screen.getByText("generate score"));
     expect(screen.getByText("score 80")).toBeInTheDocument();
@@ -56,7 +68,18 @@ describe("App", () => {
     userEvent.click(screen.getByText("generate score"));
     expect(screen.getByText("score 180")).toBeInTheDocument();
     expect(screen.getByText("8 clicks remaining")).toBeInTheDocument();
+  });
 
+  it("submits total points and clicks, resets score and clicks remaining", async () => {
+    randomSpy.mockReturnValueOnce(0.9);
+    randomSpy.mockReturnValueOnce(1);
+
+    render(<App />);
+
+    await screen.findByText(highScoresSample()[0].name);
+
+    userEvent.click(screen.getByText("generate score"));
+    userEvent.click(screen.getByText("generate score"));
     userEvent.type(screen.getByLabelText("Name"), "David");
     userEvent.click(screen.getByText("Send it!"));
 
@@ -70,8 +93,42 @@ describe("App", () => {
       expect(screen.getByText("score 0")).toBeInTheDocument()
     );
     expect(screen.getByText("10 clicks remaining")).toBeInTheDocument();
+  });
+  it("updates leader board after submitting", async () => {
+    const name = "David";
 
-    randomSpy.mockRestore();
+    randomSpy.mockReturnValueOnce(0.9);
+    randomSpy.mockReturnValueOnce(1);
+
+    getHighScores.mockResolvedValueOnce(highScoresSample());
+
+    render(<App />);
+
+    await screen.findByText(highScoresSample()[0].name);
+
+    expect(getHighScores).toHaveBeenCalledTimes(1);
+
+    userEvent.click(screen.getByText("generate score"));
+    userEvent.click(screen.getByText("generate score"));
+    userEvent.type(screen.getByLabelText("Name"), name);
+
+    getHighScores.mockResolvedValueOnce([
+      ...highScoresSample(),
+      { name, totalPoints: 180, clicks: 2, averagePoints: 90 },
+    ]);
+
+    userEvent.click(screen.getByText("Send it!"));
+
+    await screen.findByText("180");
+
+    expect(getHighScores).toHaveBeenCalledTimes(2);
+
+    const row = screen.getByText(name).closest("div");
+    const { getByText } = within(row);
+    expect(getByText(name)).toBeInTheDocument();
+    expect(getByText("180")).toBeInTheDocument();
+    expect(getByText("2")).toBeInTheDocument();
+    expect(getByText("90")).toBeInTheDocument();
   });
 
   it("handles max clicks reached by displaying message and disabling button", async () => {

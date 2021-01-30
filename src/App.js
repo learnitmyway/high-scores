@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAsync } from "react-use";
+import { useAsyncRetry } from "react-use";
 import { getHighScores, updateHighScore } from "./high-score.service";
 
 const INITIAL_NAME = "";
@@ -12,9 +12,11 @@ function App() {
   const [score, setScore] = useState(INITIAL_SCORE);
   const [clickCount, setClickCount] = useState(INITIAL_CLICK_COUNT);
 
-  const { value: highScores } = useAsync(async () => {
-    const newLocal = await getHighScores();
-    return newLocal;
+  const {
+    value: highScores,
+    retry: refreshLeaderBoard,
+  } = useAsyncRetry(async () => {
+    return await getHighScores();
   }, []);
 
   function handleChange(e) {
@@ -30,6 +32,7 @@ function App() {
   async function handleSubmit() {
     try {
       await updateHighScore({ name, score, clickCount });
+      refreshLeaderBoard();
     } catch (err) {
       // do nothing
     } finally {
