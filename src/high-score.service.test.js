@@ -63,7 +63,7 @@ describe("high-score.service", () => {
     await updateHighScore({ name: "David", score: 180, clickCount: 2 });
     expect(axios.post).toHaveBeenCalledWith(
       "api/high-scores",
-      { name: "David", score: 180, clicks: 2 },
+      { name: "David", totalPoints: 180, clicks: 2 },
       { headers: { "Content-Type": "application/json" } }
     );
   });
