@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { updateHighScore } from "./high-score.service";
+import { useAsync } from "react-use";
+import { getHighScores, updateHighScore } from "./high-score.service";
 
 const INITIAL_NAME = "";
 const INITIAL_SCORE = 0;
@@ -10,6 +11,11 @@ function App() {
   const [name, setName] = useState(INITIAL_NAME);
   const [score, setScore] = useState(INITIAL_SCORE);
   const [clickCount, setClickCount] = useState(INITIAL_CLICK_COUNT);
+
+  const { value: highScores } = useAsync(async () => {
+    const newLocal = await getHighScores();
+    return newLocal;
+  }, []);
 
   function handleChange(e) {
     setName(e.target.value);
@@ -36,6 +42,14 @@ function App() {
   return (
     <div className="App">
       <section>
+        {highScores &&
+          highScores.map((highScore, i) => (
+            <div key={i}>
+              <span>{highScore.name} </span>
+              <span>{highScore.totalPoints} </span>
+              <span>{highScore.clicks} </span>
+            </div>
+          ))}
         <div>score {score}</div>
         <label>
           {"Name "}
