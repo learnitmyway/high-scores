@@ -52,12 +52,11 @@ function App() {
           >
             generate score
           </button>
-          <span></span>
-          {clickCount >= 10 ? (
-            <>You have reached the maximum number of clicks!</>
-          ) : (
-            <>{MAX_CLICKS - clickCount} clicks remaining </>
-          )}
+          <span>
+            {clickCount >= 10
+              ? "You have reached the maximum number of clicks!"
+              : `${MAX_CLICKS - clickCount} clicks remaining`}
+          </span>
         </div>
       </section>
     </div>
