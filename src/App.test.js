@@ -44,7 +44,7 @@ describe("App", () => {
     randomSpy.mockRestore();
   });
 
-  it("displays message that max clicks have been reached", () => {
+  it("handles max clicks reached by displaying message and disabling button", () => {
     render(<App />);
 
     expect(screen.getByText("score 0")).toBeInTheDocument();
@@ -56,5 +56,6 @@ describe("App", () => {
     expect(
       screen.getByText("You have reached the maximum number of clicks!")
     ).toBeInTheDocument();
+    expect(screen.getByText("generate score")).toBeDisabled();
   });
 });
