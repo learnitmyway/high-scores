@@ -4,6 +4,7 @@ import { updateHighScore } from "./high-score.service";
 const INITIAL_NAME = "";
 const INITIAL_SCORE = 0;
 const INITIAL_CLICK_COUNT = 0;
+const MAX_CLICKS = 10;
 
 function App() {
   const [name, setName] = useState(INITIAL_NAME);
@@ -35,7 +36,6 @@ function App() {
   return (
     <div className="App">
       <section>
-        <div>click counter {clickCount}</div>
         <div>score {score}</div>
         <label>
           {"Name "}
@@ -44,9 +44,16 @@ function App() {
         <button type="button" onClick={handleSubmit}>
           Submit
         </button>
-        <button type="button" onClick={handleScore} disabled={clickCount >= 10}>
-          generate score
-        </button>
+        <div>
+          <button
+            type="button"
+            onClick={handleScore}
+            disabled={clickCount >= MAX_CLICKS}
+          >
+            generate score
+          </button>
+          <span>clicks remaining {MAX_CLICKS - clickCount}</span>
+        </div>
       </section>
     </div>
   );

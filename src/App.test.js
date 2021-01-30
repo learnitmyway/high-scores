@@ -15,16 +15,17 @@ test("displays and submits data and then resets it", async () => {
   render(<App />);
 
   expect(screen.getByText("score 0")).toBeInTheDocument();
-  expect(screen.getByText("click counter 0")).toBeInTheDocument();
+  expect(screen.getByText("clicks remaining 10")).toBeInTheDocument();
 
   userEvent.click(screen.getByText("generate score"));
+  expect(screen.getByText("score 80")).toBeInTheDocument();
+  expect(screen.getByText("clicks remaining 9")).toBeInTheDocument();
+
   userEvent.click(screen.getByText("generate score"));
+  expect(screen.getByText("score 180")).toBeInTheDocument();
+  expect(screen.getByText("clicks remaining 8")).toBeInTheDocument();
 
   userEvent.type(screen.getByLabelText("Name"), "David");
-
-  expect(screen.getByText("score 180")).toBeInTheDocument();
-  expect(screen.getByText("click counter 2")).toBeInTheDocument();
-
   userEvent.click(screen.getByText("Submit"));
 
   expect(axios.post).toHaveBeenCalledWith(
@@ -34,5 +35,5 @@ test("displays and submits data and then resets it", async () => {
   );
 
   await waitFor(() => expect(screen.getByText("score 0")).toBeInTheDocument());
-  expect(screen.getByText("click counter 0")).toBeInTheDocument();
+  expect(screen.getByText("clicks remaining 10")).toBeInTheDocument();
 });
