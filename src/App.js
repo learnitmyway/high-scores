@@ -56,7 +56,7 @@ function App() {
           {clickCount >= 10 ? (
             <>You have reached the maximum number of clicks!</>
           ) : (
-            <>clicks remaining {MAX_CLICKS - clickCount}</>
+            <>{MAX_CLICKS - clickCount} clicks remaining </>
           )}
         </div>
       </section>
