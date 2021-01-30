@@ -39,6 +39,24 @@ describe("high-score.service", () => {
 
       expect(highScores).toEqual([{ ...data[0], averagePoints: 31.4 }]);
     });
+    it("limits high scores to 10 entries", async () => {
+      const data = [];
+      for (let i = 0; i < 12; i++) {
+        data.push({
+          name: "Lily Allen",
+          totalPoints: 234,
+          clicks: 8,
+        });
+      }
+
+      axios.get.mockResolvedValue({
+        data,
+      });
+
+      const highScores = await getHighScores();
+
+      expect(highScores.length).toBe(10);
+    });
   });
 
   it("updates high scores", async () => {

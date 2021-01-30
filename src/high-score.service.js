@@ -7,7 +7,8 @@ async function getHighScores() {
     },
   });
   const sorted = [...data].sort((a, b) => b.totalPoints - a.totalPoints);
-  return sorted.map((entry) => ({
+  const sliced = sorted.slice(0, 10);
+  return sliced.map((entry) => ({
     ...entry,
     averagePoints: Number((entry.totalPoints / entry.clicks).toFixed(2)),
   }));
