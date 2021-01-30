@@ -58,7 +58,7 @@ describe("App", () => {
     expect(screen.getByText("8 clicks remaining")).toBeInTheDocument();
 
     userEvent.type(screen.getByLabelText("Name"), "David");
-    userEvent.click(screen.getByText("Submit"));
+    userEvent.click(screen.getByText("Send it!"));
 
     expect(updateHighScore).toHaveBeenCalledWith({
       name: "David",

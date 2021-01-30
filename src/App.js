@@ -57,7 +57,7 @@ function App() {
           <input value={name} onChange={handleChange} />
         </label>
         <button type="button" onClick={handleSubmit}>
-          Submit
+          Send it!
         </button>
         <div>
           <button
