@@ -6,16 +6,6 @@ jest.mock("axios");
 
 describe("high-score.service", () => {
   describe("getHighScores", () => {
-    it("extends high score entry with average points", async () => {
-      const data = [{ name: "Jane Doe", totalPoints: 157, clicks: 5 }];
-      axios.get.mockResolvedValue({
-        data,
-      });
-
-      const highScores = await getHighScores();
-
-      expect(highScores).toEqual([{ ...data[0], averagePoints: 31.4 }]);
-    });
     it("fetches high scores", async () => {
       const data = [];
       axios.get.mockResolvedValue({ data });
@@ -37,6 +27,17 @@ describe("high-score.service", () => {
       const highScores = await getHighScores();
 
       expect(highScores[0].name).toBe("Lily Allen");
+    });
+
+    it("extends high score entry with average points", async () => {
+      const data = [{ name: "Jane Doe", totalPoints: 157, clicks: 5 }];
+      axios.get.mockResolvedValue({
+        data,
+      });
+
+      const highScores = await getHighScores();
+
+      expect(highScores).toEqual([{ ...data[0], averagePoints: 31.4 }]);
     });
   });
 
