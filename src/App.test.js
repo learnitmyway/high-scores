@@ -1,11 +1,13 @@
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { v4 as uuid } from "uuid";
 
 import { getHighScores, updateHighScore } from "./high-score.service";
 
 import App from "./App";
 
 jest.mock("./high-score.service");
+jest.mock("uuid");
 
 let randomSpy;
 
@@ -32,6 +34,7 @@ describe("App", () => {
   beforeEach(() => {
     randomSpy = jest.spyOn(global.Math, "random");
     getHighScores.mockResolvedValue(highScoresSample());
+    uuid.mockReturnValue("a-unique-id");
   });
 
   afterEach(() => {
@@ -55,6 +58,36 @@ describe("App", () => {
         expect(getByText(averagePoints)).toBeInTheDocument();
       }
     );
+  });
+
+  it("inserts current player into leader board", async () => {
+    const highScores = [
+      {
+        name: "Billy Allen",
+        totalPoints: 234,
+        clicks: 8,
+        averagePoints: 29.25,
+        id: "1",
+      },
+      {
+        name: "Dane No",
+        totalPoints: -157,
+        clicks: 5,
+        averagePoints: -31.4,
+        id: "2",
+      },
+    ];
+
+    getHighScores.mockResolvedValue(highScores);
+
+    render(<App />);
+
+    const leaderBoardEntries = await screen.findAllByTestId("leaderBoardEntry");
+
+    const { getByText, getAllByText } = within(leaderBoardEntries[1]);
+
+    expect(getByText("New Player")).toBeInTheDocument();
+    expect(getAllByText(0)).toHaveLength(3);
   });
 
   it("displays initial score and clicks remaining, resets score and clicks remaining", async () => {
@@ -131,7 +164,7 @@ describe("App", () => {
         totalPoints: 180,
         clicks: 2,
         averagePoints: 90,
-        id: "a-unique-id",
+        id: "a-new-unique-id",
       },
     ]);
 

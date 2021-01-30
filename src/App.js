@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useAsyncRetry } from "react-use";
+import { v4 as uuid } from "uuid";
+
 import { getHighScores, updateHighScore } from "./high-score.service";
 
 const INITIAL_NAME = "";
@@ -11,12 +13,24 @@ function App() {
   const [name, setName] = useState(INITIAL_NAME);
   const [score, setScore] = useState(INITIAL_SCORE);
   const [clickCount, setClickCount] = useState(INITIAL_CLICK_COUNT);
+  const [clientHighScores, setClientHighScores] = useState([]);
 
-  const {
-    value: highScores,
-    retry: refreshLeaderBoard,
-  } = useAsyncRetry(async () => {
-    return await getHighScores();
+  const { retry: refreshLeaderBoard } = useAsyncRetry(async () => {
+    const highScores = await getHighScores();
+    const includingNewPlayer = [
+      ...highScores,
+      {
+        name: "New Player",
+        totalPoints: 0,
+        clicks: 0,
+        averagePoints: 0,
+        id: uuid(),
+      },
+    ];
+    const sorted = includingNewPlayer.sort(
+      (a, b) => b.totalPoints - a.totalPoints
+    );
+    setClientHighScores(sorted);
   }, []);
 
   function handleChange(e) {
@@ -45,9 +59,9 @@ function App() {
   return (
     <div className="App">
       <section>
-        {highScores &&
-          highScores.map((entry) => (
-            <div key={entry.id}>
+        {clientHighScores &&
+          clientHighScores.map((entry) => (
+            <div data-testid="leaderBoardEntry" key={entry.id}>
               <span>{entry.name} </span>
               <span>{entry.totalPoints} </span>
               <span>{entry.clicks} </span>
