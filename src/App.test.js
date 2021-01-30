@@ -8,6 +8,7 @@ import App from "./App";
 jest.mock("axios");
 
 describe("App", () => {
+  beforeEach(() => {});
   it("displays and submits data and then resets it", async () => {
     const randomSpy = jest.spyOn(global.Math, "random");
     randomSpy.mockReturnValueOnce(0.9);
@@ -39,5 +40,21 @@ describe("App", () => {
       expect(screen.getByText("score 0")).toBeInTheDocument()
     );
     expect(screen.getByText("clicks remaining 10")).toBeInTheDocument();
+
+    randomSpy.mockRestore();
+  });
+
+  it("displays message that max clicks have been reached", () => {
+    render(<App />);
+
+    expect(screen.getByText("score 0")).toBeInTheDocument();
+    expect(screen.getByText("clicks remaining 10")).toBeInTheDocument();
+
+    for (let i = 0; i < 10; i++) {
+      userEvent.click(screen.getByText("generate score"));
+    }
+    expect(
+      screen.getByText("You have reached the maximum number of clicks!")
+    ).toBeInTheDocument();
   });
 });
