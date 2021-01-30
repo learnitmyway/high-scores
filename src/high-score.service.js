@@ -1,5 +1,5 @@
 import axios from "axios";
-import hash from "object-hash";
+import { v4 as uuid } from "uuid";
 
 async function getHighScores() {
   const { data } = await axios.get("api/high-scores", {
@@ -21,7 +21,7 @@ async function getHighScores() {
       entry.clicks > 0
         ? Number((entry.totalPoints / entry.clicks).toFixed(2))
         : 0,
-    id: hash(entry),
+    id: uuid(entry),
   }));
 }
 

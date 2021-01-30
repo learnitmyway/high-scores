@@ -1,10 +1,15 @@
 import axios from "axios";
 
 import { getHighScores, updateHighScore } from "./high-score.service";
+import { v4 as uuid } from "uuid";
 
 jest.mock("axios");
+jest.mock("uuid");
 
 describe("high-score.service", () => {
+  beforeEach(() => {
+    uuid.mockReturnValue("a-unique-id");
+  });
   describe("getHighScores", () => {
     it("fetches high scores", async () => {
       const data = [];
@@ -58,7 +63,9 @@ describe("high-score.service", () => {
       expect(highScores[0].averagePoints).toBe(31.4);
     });
 
-    it("extends high score entry with hashed id", async () => {
+    it("extends high score entry with uuid", async () => {
+      const uniqueId = "a-unique-id";
+      uuid.mockReturnValue(uniqueId);
       const data = [{ name: "Jane Doe", totalPoints: 157, clicks: 5 }];
       axios.get.mockResolvedValue({
         data,
@@ -66,7 +73,7 @@ describe("high-score.service", () => {
 
       const highScores = await getHighScores();
 
-      expect(highScores[0].id).toBe("64c174ccfc516e0042c9accf9037162397717fe0");
+      expect(highScores[0].id).toBe(uniqueId);
     });
 
     it("handles 0 clicks", async () => {
