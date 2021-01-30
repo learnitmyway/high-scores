@@ -22,7 +22,7 @@ function App() {
 
   async function handleSubmit() {
     try {
-      await updateHighScore({ name, score, clicks: clickCount });
+      await updateHighScore({ name, score, clickCount });
     } catch (err) {
       // do nothing
     } finally {
