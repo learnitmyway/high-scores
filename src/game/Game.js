@@ -91,10 +91,6 @@ function Game() {
   return (
     <main className={classes.main}>
       <section>
-        {isGetError && (
-          <p style={{ color: "red" }}>{"Error: cannot display leader board"}</p>
-        )}
-        {clientHighScores && <LeaderBoard scores={clientHighScores} />}
         <ScoreUpdater
           score={score}
           onUpdateScore={handleScore}
@@ -106,6 +102,10 @@ function Game() {
           onSubmit={handleSubmit}
           isSubmitError={isSubmitError}
         />
+        {isGetError && (
+          <p style={{ color: "red" }}>{"Error: cannot display leader board"}</p>
+        )}
+        {clientHighScores && <LeaderBoard scores={clientHighScores} />}
       </section>
     </main>
   );
