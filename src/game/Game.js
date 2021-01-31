@@ -87,7 +87,7 @@ function Game() {
   }
 
   return (
-    <div className="App">
+    <main>
       <section>
         {isGetError && (
           <p style={{ color: "red" }}>{"Error: cannot display leader board"}</p>
@@ -105,7 +105,7 @@ function Game() {
           isSubmitError={isSubmitError}
         />
       </section>
-    </div>
+    </main>
   );
 }
 
