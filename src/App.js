@@ -18,7 +18,7 @@ function App() {
   const [clickCount, setClickCount] = useState(INITIAL_CLICK_COUNT);
   const [clientHighScores, setClientHighScores] = useState([]);
   const [isSubmitError, setSubmitError] = useState(false);
-  const newPlayerTempId = useRef("");
+  const newPlayerTempId = useRef(null);
 
   const {
     error: isGetError,
