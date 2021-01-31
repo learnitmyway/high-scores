@@ -61,11 +61,12 @@ function Game() {
     try {
       await updateHighScore({ name, score, clickCount });
       refreshLeaderBoard();
+    } catch (err) {
+      setSubmitError(true);
+    } finally {
       setName(INITIAL_NAME);
       setScore(INITIAL_SCORE);
       setClickCount(INITIAL_CLICK_COUNT);
-    } catch (err) {
-      setSubmitError(true);
     }
   }
 

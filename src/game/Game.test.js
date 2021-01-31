@@ -236,7 +236,7 @@ describe("Game", () => {
       );
     });
 
-    it("handles submit error", async () => {
+    it("handles submit error, resets score and clicks remaining", async () => {
       render(<Game />);
 
       await screen.findByText(highScoresSample()[0].name);
@@ -250,6 +250,13 @@ describe("Game", () => {
           screen.getByText("Error: cannot submit score")
         ).toBeInTheDocument()
       );
+
+      const scoreUpdateSection = await screen.findByTestId("ScoreUpdater");
+
+      const { getByText } = within(scoreUpdateSection);
+
+      expect(getByText("0")).toBeInTheDocument();
+      expect(getByText("10 clicks remaining")).toBeInTheDocument();
     });
   });
 });
