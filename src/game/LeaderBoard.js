@@ -8,8 +8,8 @@ function LeaderBoard({ scores }) {
           <tr className={classes.row}>
             <th>Name</th>
             <th>Total Points</th>
-            <th>Clicks</th>
-            <th>Average Points</th>
+            <th className={classes.hide}>Clicks</th>
+            <th className={classes.hide}>Average Points</th>
           </tr>
         </thead>
         <tbody>
@@ -22,8 +22,8 @@ function LeaderBoard({ scores }) {
               >
                 <td>{entry.name}</td>
                 <td>{entry.totalPoints}</td>
-                <td>{entry.clicks}</td>
-                <td>{entry.averagePoints}</td>
+                <td className={classes.hide}>{entry.clicks}</td>
+                <td className={classes.hide}>{entry.averagePoints}</td>
               </tr>
             ) : null
           )}
