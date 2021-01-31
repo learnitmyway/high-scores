@@ -3,6 +3,7 @@ import { useAsyncRetry } from "react-use";
 import { v4 as uuid } from "uuid";
 
 import LeaderBoard from "./LeaderBoard";
+import ScoreUpdater from "./ScoreUpdater";
 
 import { getHighScores, updateHighScore } from "./high-score.service";
 import compareByTotalPointsDesc from "./compareByTotalPointsDesc";
@@ -11,7 +12,6 @@ import calculateAveragePoints from "./calculateAveragePoints";
 const INITIAL_NAME = "";
 const INITIAL_SCORE = 0;
 const INITIAL_CLICK_COUNT = 0;
-const MAX_CLICKS = 10;
 const NEW_PLAYER_NAME = "New Player";
 
 function Game() {
@@ -92,7 +92,11 @@ function Game() {
           <p style={{ color: "red" }}>{"Error: cannot display leader board"}</p>
         )}
         {clientHighScores && <LeaderBoard scores={clientHighScores} />}
-        <div>score {score}</div>
+        <ScoreUpdater
+          score={score}
+          onUpdateScore={handleScore}
+          clickCount={clickCount}
+        />
         <label>
           {"Name "}
           <input value={name} onChange={handleChange} />
@@ -103,20 +107,6 @@ function Game() {
         <span style={{ color: "red" }}>
           {isSubmitError && " Error: cannot submit score"}
         </span>
-        <div>
-          <button
-            type="button"
-            onClick={handleScore}
-            disabled={clickCount >= MAX_CLICKS}
-          >
-            generate score
-          </button>
-          <span>
-            {clickCount >= 10
-              ? "You have reached the maximum number of clicks! Please send your score or refresh the page."
-              : `${MAX_CLICKS - clickCount} clicks remaining`}
-          </span>
-        </div>
       </section>
     </div>
   );
