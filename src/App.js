@@ -50,15 +50,15 @@ function App() {
       .map((entry) => {
         const isNewPlayer = entry.id === newPlayerTempId.current;
         if (isNewPlayer) {
-          const updatedNewPlayerNoAverage = {
+          const updatedNewPlayer = {
             ...entry,
             name: name || NEW_PLAYER_NAME,
             totalPoints: updatedScore,
             clicks: updatedClickCount,
-          };
-          const updatedNewPlayer = {
-            ...updatedNewPlayerNoAverage,
-            averagePoints: calculateAveragePoints(updatedNewPlayerNoAverage),
+            averagePoints: calculateAveragePoints({
+              clicks: updatedClickCount,
+              totalPoints: updatedScore,
+            }),
           };
           return updatedNewPlayer;
         } else {

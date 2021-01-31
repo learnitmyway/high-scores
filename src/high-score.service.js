@@ -14,7 +14,10 @@ async function getHighScores() {
   const sliced = sorted.slice(0, 10);
   return sliced.map((entry) => ({
     ...entry,
-    averagePoints: calculateAveragePoints(entry),
+    averagePoints: calculateAveragePoints({
+      clicks: entry.clicks,
+      totalPoints: entry.totalPoints,
+    }),
     id: uuid(),
   }));
 }
