@@ -83,15 +83,17 @@ function App() {
     <div className="App">
       <section>
         {clientHighScores &&
-          clientHighScores.map((entry) => (
-            <div data-testid="leaderBoardEntry" key={entry.id}>
-              <span>{entry.name} </span>
-              <span>{entry.totalPoints} </span>
-              <span>{entry.clicks} </span>
-              <span>{entry.averagePoints} </span>
-              <span>{entry.id} </span>
-            </div>
-          ))}
+          clientHighScores.map((entry, i) =>
+            i < 10 ? (
+              <div data-testid="leaderBoardEntry" key={entry.id}>
+                <span>{entry.name} </span>
+                <span>{entry.totalPoints} </span>
+                <span>{entry.clicks} </span>
+                <span>{entry.averagePoints} </span>
+                <span>{entry.id} </span>
+              </div>
+            ) : null
+          )}
         <div>score {score}</div>
         <label>
           {"Name "}

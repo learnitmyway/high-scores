@@ -60,6 +60,27 @@ describe("App", () => {
     );
   });
 
+  it("displays max 10 high scores", async () => {
+    const highScores = [];
+    for (let i = 0; i < 11; i++) {
+      highScores.push({
+        name: "Jane Doe",
+        totalPoints: i,
+        clicks: 1,
+        averagePoints: i,
+        id: i.toString(),
+      });
+    }
+
+    getHighScores.mockResolvedValue(highScores);
+
+    render(<App />);
+
+    await screen.findAllByText(highScores[0].name);
+
+    expect(screen.getAllByText(highScores[0].name)).toHaveLength(10);
+  });
+
   it("inserts current player into leader board", async () => {
     const highScores = [
       {
