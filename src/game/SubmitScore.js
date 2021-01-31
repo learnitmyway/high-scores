@@ -1,3 +1,6 @@
+import Button from "../common/Button";
+import classes from "./SubmitScore.module.css";
+
 function SubmitScore({ name, onChange, onSubmit, isSubmitError }) {
   return (
     <section>
@@ -5,9 +8,7 @@ function SubmitScore({ name, onChange, onSubmit, isSubmitError }) {
         {"Name "}
         <input value={name} onChange={onChange} />
       </label>
-      <button type="button" onClick={onSubmit}>
-        Send it!
-      </button>
+      <Button className={classes.button} onClick={onSubmit} text="Send it!" />
       <span style={{ color: "red" }}>
         {isSubmitError && " Error: cannot submit score"}
       </span>
