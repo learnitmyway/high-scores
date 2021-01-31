@@ -2,6 +2,8 @@ import { useRef, useState } from "react";
 import { useAsyncRetry } from "react-use";
 import { v4 as uuid } from "uuid";
 
+import LeaderBoard from "./LeaderBoard";
+
 import { getHighScores, updateHighScore } from "./high-score.service";
 import compareByTotalPointsDesc from "./compareByTotalPointsDesc";
 import calculateAveragePoints from "./calculateAveragePoints";
@@ -89,18 +91,7 @@ function App() {
         {isGetError && (
           <p style={{ color: "red" }}>{"Error: cannot display leader board"}</p>
         )}
-        {clientHighScores &&
-          clientHighScores.map((entry, i) =>
-            i < 10 ? (
-              <div data-testid="leaderBoardEntry" key={entry.id}>
-                <span>{entry.name} </span>
-                <span>{entry.totalPoints} </span>
-                <span>{entry.clicks} </span>
-                <span>{entry.averagePoints} </span>
-                <span>{entry.id} </span>
-              </div>
-            ) : null
-          )}
+        {clientHighScores && <LeaderBoard scores={clientHighScores} />}
         <div>score {score}</div>
         <label>
           {"Name "}
