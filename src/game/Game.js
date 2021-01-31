@@ -30,16 +30,9 @@ function Game() {
     retry: refreshLeaderBoard,
   } = useAsyncRetry(async () => {
     const highScores = await getHighScores();
-    newPlayerTempId.current = uuid();
-    const newPlayer = {
-      name: NEW_PLAYER_NAME,
-      totalPoints: 0,
-      clicks: 0,
-      averagePoints: 0,
-      id: newPlayerTempId.current,
-    };
-    const sorted = [...highScores, newPlayer].sort(compareByTotalPointsDesc);
-    setClientHighScores(sorted);
+    const tempId = uuid();
+    newPlayerTempId.current = tempId;
+    setClientHighScores(highScoresWithNewPlayer(tempId, highScores));
   }, []);
 
   function handleChange(e) {
@@ -54,21 +47,9 @@ function Game() {
     const updatedClientScores = clientHighScores
       .map((entry) => {
         const isNewPlayer = entry.id === newPlayerTempId.current;
-        if (isNewPlayer) {
-          const updatedNewPlayer = {
-            ...entry,
-            name: name || NEW_PLAYER_NAME,
-            totalPoints: updatedScore,
-            clicks: updatedClickCount,
-            averagePoints: calculateAveragePoints({
-              clicks: updatedClickCount,
-              totalPoints: updatedScore,
-            }),
-          };
-          return updatedNewPlayer;
-        } else {
-          return entry;
-        }
+        return isNewPlayer
+          ? updatedNewPlayer(entry, name, updatedScore, updatedClickCount)
+          : entry;
       })
       .sort(compareByTotalPointsDesc);
     setScore(updatedScore);
@@ -109,6 +90,32 @@ function Game() {
       </section>
     </main>
   );
+}
+
+function highScoresWithNewPlayer(id, highScores) {
+  const newPlayer = {
+    name: NEW_PLAYER_NAME,
+    totalPoints: 0,
+    clicks: 0,
+    averagePoints: 0,
+    id,
+  };
+  const sorted = [...highScores, newPlayer].sort(compareByTotalPointsDesc);
+  return sorted;
+}
+
+function updatedNewPlayer(entry, name, updatedScore, updatedClickCount) {
+  const updatedNewPlayer = {
+    ...entry,
+    name: name || NEW_PLAYER_NAME,
+    totalPoints: updatedScore,
+    clicks: updatedClickCount,
+    averagePoints: calculateAveragePoints({
+      clicks: updatedClickCount,
+      totalPoints: updatedScore,
+    }),
+  };
+  return updatedNewPlayer;
 }
 
 export default Game;
