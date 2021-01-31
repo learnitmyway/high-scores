@@ -122,7 +122,7 @@ function App() {
           </button>
           <span>
             {clickCount >= 10
-              ? "You have reached the maximum number of clicks!"
+              ? "You have reached the maximum number of clicks! Please send your score or refresh the page."
               : `${MAX_CLICKS - clickCount} clicks remaining`}
           </span>
         </div>

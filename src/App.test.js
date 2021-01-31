@@ -255,7 +255,9 @@ describe("App", () => {
       userEvent.click(screen.getByText("generate score"));
     }
     expect(
-      screen.getByText("You have reached the maximum number of clicks!")
+      screen.getByText(
+        "You have reached the maximum number of clicks! Please send your score or refresh the page."
+      )
     ).toBeInTheDocument();
     expect(screen.getByText("generate score")).toBeDisabled();
   });
