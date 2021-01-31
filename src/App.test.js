@@ -160,6 +160,8 @@ describe("App", () => {
     expect(getAllByText1("80")).toHaveLength(2); // average and total are both 80
     expect(getByText1("1")).toBeInTheDocument();
 
+    userEvent.type(screen.getByLabelText("Name"), "David");
+
     userEvent.click(screen.getByText("generate score"));
     expect(screen.getByText("score 180")).toBeInTheDocument();
     expect(screen.getByText("8 clicks remaining")).toBeInTheDocument();
@@ -168,7 +170,7 @@ describe("App", () => {
       "leaderBoardEntry"
     );
     const { getByText: getByText2 } = within(leaderBoardEntries2[0]);
-    expect(getByText2("New Player")).toBeInTheDocument();
+    expect(getByText2("David")).toBeInTheDocument();
     expect(getByText2("180")).toBeInTheDocument();
     expect(getByText2("2")).toBeInTheDocument();
     expect(getByText2("90")).toBeInTheDocument();
@@ -256,5 +258,35 @@ describe("App", () => {
       screen.getByText("You have reached the maximum number of clicks!")
     ).toBeInTheDocument();
     expect(screen.getByText("generate score")).toBeDisabled();
+  });
+
+  describe("error handling", () => {
+    it("handles GET error", async () => {
+      getHighScores.mockRejectedValue(new Error());
+
+      render(<App />);
+
+      await waitFor(() =>
+        expect(
+          screen.getByText("Error: cannot display leader board")
+        ).toBeInTheDocument()
+      );
+    });
+
+    it("handles submit error", async () => {
+      render(<App />);
+
+      await screen.findByText(highScoresSample()[0].name);
+
+      updateHighScore.mockRejectedValue(new Error());
+
+      userEvent.click(screen.getByText("Send it!"));
+
+      await waitFor(() =>
+        expect(
+          screen.getByText("Error: cannot submit score")
+        ).toBeInTheDocument()
+      );
+    });
   });
 });

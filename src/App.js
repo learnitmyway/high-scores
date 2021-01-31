@@ -10,19 +10,24 @@ const INITIAL_NAME = "";
 const INITIAL_SCORE = 0;
 const INITIAL_CLICK_COUNT = 0;
 const MAX_CLICKS = 10;
+const NEW_PLAYER_NAME = "New Player";
 
 function App() {
   const [name, setName] = useState(INITIAL_NAME);
   const [score, setScore] = useState(INITIAL_SCORE);
   const [clickCount, setClickCount] = useState(INITIAL_CLICK_COUNT);
   const [clientHighScores, setClientHighScores] = useState([]);
+  const [isSubmitError, setSubmitError] = useState(false);
   const newPlayerTempId = useRef("");
 
-  const { retry: refreshLeaderBoard } = useAsyncRetry(async () => {
+  const {
+    error: isGetError,
+    retry: refreshLeaderBoard,
+  } = useAsyncRetry(async () => {
     const highScores = await getHighScores();
     newPlayerTempId.current = uuid();
     const newPlayer = {
-      name: "New Player",
+      name: NEW_PLAYER_NAME,
       totalPoints: 0,
       clicks: 0,
       averagePoints: 0,
@@ -33,7 +38,7 @@ function App() {
   }, []);
 
   function handleChange(e) {
-    setName(e.target.value);
+    setName(e.target.value.trim());
   }
 
   function handleScore() {
@@ -47,7 +52,7 @@ function App() {
         if (isNewPlayer) {
           const updatedNewPlayerNoAverage = {
             ...entry,
-            id: entry.id,
+            name: name || NEW_PLAYER_NAME,
             totalPoints: updatedScore,
             clicks: updatedClickCount,
           };
@@ -70,18 +75,20 @@ function App() {
     try {
       await updateHighScore({ name, score, clickCount });
       refreshLeaderBoard();
-    } catch (err) {
-      // do nothing
-    } finally {
       setName(INITIAL_NAME);
       setScore(INITIAL_SCORE);
       setClickCount(INITIAL_CLICK_COUNT);
+    } catch (err) {
+      setSubmitError(true);
     }
   }
 
   return (
     <div className="App">
       <section>
+        {isGetError && (
+          <p style={{ color: "red" }}>{"Error: cannot display leader board"}</p>
+        )}
         {clientHighScores &&
           clientHighScores.map((entry, i) =>
             i < 10 ? (
@@ -102,6 +109,9 @@ function App() {
         <button type="button" onClick={handleSubmit}>
           Send it!
         </button>
+        <span style={{ color: "red" }}>
+          {isSubmitError && " Error: cannot submit score"}
+        </span>
         <div>
           <button
             type="button"
