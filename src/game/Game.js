@@ -43,7 +43,7 @@ function Game() {
   }, []);
 
   function handleChange(e) {
-    setName(e.target.value.trim());
+    setName(e.target.value);
   }
 
   function handleScore() {
