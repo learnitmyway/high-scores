@@ -58,17 +58,6 @@ describe("high-score.service", () => {
       expect(highScores[0].id).toBe(uniqueId);
     });
 
-    it("handles 0 clicks", async () => {
-      const data = [{ name: "Jane Doe", totalPoints: 0, clicks: 0 }];
-      axios.get.mockResolvedValue({
-        data,
-      });
-
-      const highScores = await getHighScores();
-
-      expect(highScores[0].averagePoints).toBe(0);
-    });
-
     it("limits high scores to 10 entries", async () => {
       const data = [];
       for (let i = 0; i < 12; i++) {
