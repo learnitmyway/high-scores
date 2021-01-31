@@ -4,6 +4,7 @@ import { v4 as uuid } from "uuid";
 
 import LeaderBoard from "./LeaderBoard";
 import ScoreUpdater from "./ScoreUpdater";
+import SubmitScore from "./SubmitScore";
 
 import { getHighScores, updateHighScore } from "./high-score.service";
 import compareByTotalPointsDesc from "./compareByTotalPointsDesc";
@@ -97,16 +98,12 @@ function Game() {
           onUpdateScore={handleScore}
           clickCount={clickCount}
         />
-        <label>
-          {"Name "}
-          <input value={name} onChange={handleChange} />
-        </label>
-        <button type="button" onClick={handleSubmit}>
-          Send it!
-        </button>
-        <span style={{ color: "red" }}>
-          {isSubmitError && " Error: cannot submit score"}
-        </span>
+        <SubmitScore
+          name={name}
+          onChange={handleChange}
+          onSubmit={handleSubmit}
+          isSubmitError={isSubmitError}
+        />
       </section>
     </div>
   );
