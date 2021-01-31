@@ -128,7 +128,7 @@ describe("Game", () => {
 
     await screen.findByText("New Player");
 
-    userEvent.click(screen.getByText("UPDATE SCORE"));
+    userEvent.click(screen.getByText("CLICK HERE"));
     expect(screen.getAllByText("80")[0]).toBeInTheDocument();
     expect(screen.getByText("9 clicks remaining")).toBeInTheDocument();
 
@@ -144,7 +144,7 @@ describe("Game", () => {
 
     userEvent.type(screen.getByLabelText("Name"), "David");
 
-    userEvent.click(screen.getByText("UPDATE SCORE"));
+    userEvent.click(screen.getByText("CLICK HERE"));
     expect(screen.getAllByText("180")[0]).toBeInTheDocument();
     expect(screen.getByText("8 clicks remaining")).toBeInTheDocument();
 
@@ -166,8 +166,8 @@ describe("Game", () => {
 
     await screen.findByText(highScoresSample()[0].name);
 
-    userEvent.click(screen.getByText("UPDATE SCORE"));
-    userEvent.click(screen.getByText("UPDATE SCORE"));
+    userEvent.click(screen.getByText("CLICK HERE"));
+    userEvent.click(screen.getByText("CLICK HERE"));
     userEvent.type(screen.getByLabelText("Name"), "David");
     userEvent.click(screen.getByText("Save"));
 
@@ -194,8 +194,8 @@ describe("Game", () => {
 
     expect(getHighScores).toHaveBeenCalledTimes(1);
 
-    userEvent.click(screen.getByText("UPDATE SCORE"));
-    userEvent.click(screen.getByText("UPDATE SCORE"));
+    userEvent.click(screen.getByText("CLICK HERE"));
+    userEvent.click(screen.getByText("CLICK HERE"));
     userEvent.type(screen.getByLabelText("Name"), name);
 
     getHighScores.mockResolvedValueOnce([

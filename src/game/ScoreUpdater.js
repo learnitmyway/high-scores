@@ -12,7 +12,7 @@ function ScoreUpdater({ score, onUpdateScore, clickCount }) {
           <Button
             className={classes.button}
             onClick={onUpdateScore}
-            text="UPDATE SCORE"
+            text="CLICK HERE"
             disabled={clickCount >= MAX_CLICKS}
           />
         </div>
