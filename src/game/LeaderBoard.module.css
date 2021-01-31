@@ -1,5 +1,14 @@
 .root {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table {
   margin: 0 auto;
+  display: table;
+  border-spacing: 0;
+  border-collapse: collapse;
+  min-width: 650px;
 }
 
 .row th,
