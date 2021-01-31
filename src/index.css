@@ -15,7 +15,7 @@ code {
 
 body {
   font-family: "Press Start 2P";
-  background: black;
+  background: rgba(0, 0, 0, 0.9);
   text-transform: uppercase;
   color: white;
 }

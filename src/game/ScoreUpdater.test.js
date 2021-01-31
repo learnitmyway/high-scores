@@ -12,6 +12,6 @@ describe("ScoreUpdater", () => {
         "You have reached the maximum number of clicks! Please send your score or refresh the page."
       )
     ).toBeInTheDocument();
-    expect(screen.getByText("generate score")).toBeDisabled();
+    expect(screen.getByText("UPDATE SCORE")).toBeDisabled();
   });
 });

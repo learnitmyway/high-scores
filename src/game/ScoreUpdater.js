@@ -1,3 +1,6 @@
+import Button from "../common/Button";
+import classes from "./ScoreUpdater.module.css";
+
 const MAX_CLICKS = 10;
 
 function ScoreUpdater({ score, onUpdateScore, clickCount }) {
@@ -5,13 +8,12 @@ function ScoreUpdater({ score, onUpdateScore, clickCount }) {
     <section>
       <div>score {score}</div>
       <div>
-        <button
-          type="button"
+        <Button
+          className={classes.button}
           onClick={onUpdateScore}
+          text="UPDATE SCORE"
           disabled={clickCount >= MAX_CLICKS}
-        >
-          generate score
-        </button>
+        />
         <span>
           {clickCount >= 10
             ? "You have reached the maximum number of clicks! Please send your score or refresh the page."
