@@ -6,6 +6,8 @@ import LeaderBoard from "./LeaderBoard";
 import ScoreUpdater from "./ScoreUpdater";
 import SubmitScore from "./SubmitScore";
 
+import classes from "./Game.module.css";
+
 import { getHighScores, updateHighScore } from "./high-score.service";
 import compareByTotalPointsDesc from "./compareByTotalPointsDesc";
 import calculateAveragePoints from "./calculateAveragePoints";
@@ -87,7 +89,7 @@ function Game() {
   }
 
   return (
-    <main>
+    <main className={classes.main}>
       <section>
         {isGetError && (
           <p style={{ color: "red" }}>{"Error: cannot display leader board"}</p>
