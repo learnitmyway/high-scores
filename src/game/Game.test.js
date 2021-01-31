@@ -222,25 +222,6 @@ describe("Game", () => {
     expect(getByText("90")).toBeInTheDocument();
   });
 
-  it("handles max clicks reached by displaying message and disabling button", async () => {
-    render(<Game />);
-
-    await screen.findByText(highScoresSample()[0].name);
-
-    expect(screen.getByText("score 0")).toBeInTheDocument();
-    expect(screen.getByText("10 clicks remaining")).toBeInTheDocument();
-
-    for (let i = 0; i < 10; i++) {
-      userEvent.click(screen.getByText("generate score"));
-    }
-    expect(
-      screen.getByText(
-        "You have reached the maximum number of clicks! Please send your score or refresh the page."
-      )
-    ).toBeInTheDocument();
-    expect(screen.getByText("generate score")).toBeDisabled();
-  });
-
   describe("error handling", () => {
     it("handles GET error", async () => {
       getHighScores.mockRejectedValue(new Error());
