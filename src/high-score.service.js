@@ -15,7 +15,7 @@ async function getHighScores() {
       entry.clicks > 0
         ? Number((entry.totalPoints / entry.clicks).toFixed(2))
         : 0,
-    id: uuid(entry),
+    id: uuid(),
   }));
 }
 
