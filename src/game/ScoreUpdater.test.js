@@ -9,7 +9,7 @@ describe("ScoreUpdater", () => {
 
     expect(
       screen.getByText(
-        "You have reached the maximum number of clicks! Please send your score or refresh the page."
+        "You have reached the maximum number of clicks! Please save your score or refresh the page to reset."
       )
     ).toBeInTheDocument();
     expect(screen.getByText("UPDATE SCORE")).toBeDisabled();

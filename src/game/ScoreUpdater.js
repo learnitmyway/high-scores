@@ -5,18 +5,20 @@ const MAX_CLICKS = 10;
 
 function ScoreUpdater({ score, onUpdateScore, clickCount }) {
   return (
-    <section>
-      <div>score {score}</div>
+    <section data-testid="ScoreUpdater" className={classes.root}>
       <div>
-        <Button
-          className={classes.button}
-          onClick={onUpdateScore}
-          text="UPDATE SCORE"
-          disabled={clickCount >= MAX_CLICKS}
-        />
-        <span>
+        <div className={classes.score}>{score}</div>
+        <div className={classes.buttonWrapper}>
+          <Button
+            className={classes.button}
+            onClick={onUpdateScore}
+            text="UPDATE SCORE"
+            disabled={clickCount >= MAX_CLICKS}
+          />
+        </div>
+        <span className={classes.clickCount}>
           {clickCount >= 10
-            ? "You have reached the maximum number of clicks! Please send your score or refresh the page."
+            ? "You have reached the maximum number of clicks! Please save your score or refresh the page to reset."
             : `${MAX_CLICKS - clickCount} clicks remaining`}
         </span>
       </div>

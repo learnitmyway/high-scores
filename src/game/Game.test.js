@@ -94,8 +94,11 @@ describe("Game", () => {
     render(<Game />);
     await screen.findByText(highScoresSample()[0].name);
 
-    expect(screen.getByText("score 0")).toBeInTheDocument();
-    expect(screen.getByText("10 clicks remaining")).toBeInTheDocument();
+    const scoreUpdateSection = await screen.findByTestId("ScoreUpdater");
+
+    const { getByText } = within(scoreUpdateSection);
+    expect(getByText("0")).toBeInTheDocument();
+    expect(getByText("10 clicks remaining")).toBeInTheDocument();
   });
 
   it("updates score, leader board and clicks remaining", async () => {
@@ -126,7 +129,7 @@ describe("Game", () => {
     await screen.findByText("New Player");
 
     userEvent.click(screen.getByText("UPDATE SCORE"));
-    expect(screen.getByText("score 80")).toBeInTheDocument();
+    expect(screen.getAllByText("80")[0]).toBeInTheDocument();
     expect(screen.getByText("9 clicks remaining")).toBeInTheDocument();
 
     const leaderBoardEntries1 = await screen.findAllByTestId(
@@ -142,7 +145,7 @@ describe("Game", () => {
     userEvent.type(screen.getByLabelText("Name"), "David");
 
     userEvent.click(screen.getByText("UPDATE SCORE"));
-    expect(screen.getByText("score 180")).toBeInTheDocument();
+    expect(screen.getAllByText("180")[0]).toBeInTheDocument();
     expect(screen.getByText("8 clicks remaining")).toBeInTheDocument();
 
     const leaderBoardEntries2 = await screen.findAllByTestId(
@@ -174,9 +177,7 @@ describe("Game", () => {
       clickCount: 2,
     });
 
-    await waitFor(() =>
-      expect(screen.getByText("score 0")).toBeInTheDocument()
-    );
+    await waitFor(() => expect(screen.getByText("0")).toBeInTheDocument());
     expect(screen.getByText("10 clicks remaining")).toBeInTheDocument();
   });
   it("updates leader board after submitting", async () => {
