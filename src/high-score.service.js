@@ -1,20 +1,20 @@
 import axios from "axios";
 import { v4 as uuid } from "uuid";
 
+import calculateAveragePoints from "./calculateAveragePoints";
+import compareByTotalPointsDesc from "./compareByTotalPointsDesc";
+
 async function getHighScores() {
   const { data } = await axios.get("api/high-scores", {
     headers: {
       "Content-Type": "application/json",
     },
   });
-  const sorted = [...data].sort((a, b) => b.totalPoints - a.totalPoints);
+  const sorted = [...data].sort(compareByTotalPointsDesc);
   const sliced = sorted.slice(0, 10);
   return sliced.map((entry) => ({
     ...entry,
-    averagePoints:
-      entry.clicks > 0
-        ? Number((entry.totalPoints / entry.clicks).toFixed(2))
-        : 0,
+    averagePoints: calculateAveragePoints(entry),
     id: uuid(),
   }));
 }

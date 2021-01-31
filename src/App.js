@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useAsyncRetry } from "react-use";
 import { v4 as uuid } from "uuid";
 
 import { getHighScores, updateHighScore } from "./high-score.service";
+import compareByTotalPointsDesc from "./compareByTotalPointsDesc";
+import calculateAveragePoints from "./calculateAveragePoints";
 
 const INITIAL_NAME = "";
 const INITIAL_SCORE = 0;
@@ -14,22 +16,19 @@ function App() {
   const [score, setScore] = useState(INITIAL_SCORE);
   const [clickCount, setClickCount] = useState(INITIAL_CLICK_COUNT);
   const [clientHighScores, setClientHighScores] = useState([]);
+  const newPlayerTempId = useRef("");
 
   const { retry: refreshLeaderBoard } = useAsyncRetry(async () => {
     const highScores = await getHighScores();
-    const includingNewPlayer = [
-      ...highScores,
-      {
-        name: "New Player",
-        totalPoints: 0,
-        clicks: 0,
-        averagePoints: 0,
-        id: uuid(),
-      },
-    ];
-    const sorted = includingNewPlayer.sort(
-      (a, b) => b.totalPoints - a.totalPoints
-    );
+    newPlayerTempId.current = uuid();
+    const newPlayer = {
+      name: "New Player",
+      totalPoints: 0,
+      clicks: 0,
+      averagePoints: 0,
+      id: newPlayerTempId.current,
+    };
+    const sorted = [...highScores, newPlayer].sort(compareByTotalPointsDesc);
     setClientHighScores(sorted);
   }, []);
 
@@ -39,8 +38,32 @@ function App() {
 
   function handleScore() {
     const aNumberBetweenMinus100And100 = Math.floor(Math.random() * 200 - 100);
-    setScore((score) => score + aNumberBetweenMinus100And100);
-    setClickCount((clickCount) => setClickCount(clickCount + 1));
+    const updatedScore = score + aNumberBetweenMinus100And100;
+    const updatedClickCount = clickCount + 1;
+
+    const updatedClientScores = clientHighScores
+      .map((entry) => {
+        const isNewPlayer = entry.id === newPlayerTempId.current;
+        if (isNewPlayer) {
+          const updatedNewPlayerNoAverage = {
+            ...entry,
+            id: entry.id,
+            totalPoints: updatedScore,
+            clicks: updatedClickCount,
+          };
+          const updatedNewPlayer = {
+            ...updatedNewPlayerNoAverage,
+            averagePoints: calculateAveragePoints(updatedNewPlayerNoAverage),
+          };
+          return updatedNewPlayer;
+        } else {
+          return entry;
+        }
+      })
+      .sort(compareByTotalPointsDesc);
+    setScore(updatedScore);
+    setClickCount(updatedClickCount);
+    setClientHighScores(updatedClientScores);
   }
 
   async function handleSubmit() {

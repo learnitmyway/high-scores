@@ -90,7 +90,7 @@ describe("App", () => {
     expect(getAllByText(0)).toHaveLength(3);
   });
 
-  it("displays initial score and clicks remaining, resets score and clicks remaining", async () => {
+  it("displays initial score and clicks remaining", async () => {
     render(<App />);
     await screen.findByText(highScoresSample()[0].name);
 
@@ -98,21 +98,59 @@ describe("App", () => {
     expect(screen.getByText("10 clicks remaining")).toBeInTheDocument();
   });
 
-  it("updates score and clicks remaining", async () => {
+  it("updates score, leader board and clicks remaining", async () => {
+    const highScores = [
+      {
+        name: "Wily Palin",
+        totalPoints: 179,
+        clicks: 8,
+        averagePoints: 29.25,
+        id: "1",
+      },
+      {
+        name: "Insane Joe",
+        totalPoints: 79,
+        clicks: 5,
+        averagePoints: -31.4,
+        id: "2",
+      },
+    ];
+
+    getHighScores.mockReturnValue(highScores);
+
     randomSpy.mockReturnValueOnce(0.9);
     randomSpy.mockReturnValueOnce(1);
 
     render(<App />);
 
-    await screen.findByText(highScoresSample()[0].name);
+    await screen.findByText("New Player");
 
     userEvent.click(screen.getByText("generate score"));
     expect(screen.getByText("score 80")).toBeInTheDocument();
     expect(screen.getByText("9 clicks remaining")).toBeInTheDocument();
 
+    const leaderBoardEntries1 = await screen.findAllByTestId(
+      "leaderBoardEntry"
+    );
+    const { getByText: getByText1, getAllByText: getAllByText1 } = within(
+      leaderBoardEntries1[1]
+    );
+    expect(getByText1("New Player")).toBeInTheDocument();
+    expect(getAllByText1("80")).toHaveLength(2); // average and total are both 80
+    expect(getByText1("1")).toBeInTheDocument();
+
     userEvent.click(screen.getByText("generate score"));
     expect(screen.getByText("score 180")).toBeInTheDocument();
     expect(screen.getByText("8 clicks remaining")).toBeInTheDocument();
+
+    const leaderBoardEntries2 = await screen.findAllByTestId(
+      "leaderBoardEntry"
+    );
+    const { getByText: getByText2 } = within(leaderBoardEntries2[0]);
+    expect(getByText2("New Player")).toBeInTheDocument();
+    expect(getByText2("180")).toBeInTheDocument();
+    expect(getByText2("2")).toBeInTheDocument();
+    expect(getByText2("90")).toBeInTheDocument();
   });
 
   it("submits total points and clicks, resets score and clicks remaining", async () => {
