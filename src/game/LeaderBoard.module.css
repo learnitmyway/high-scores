@@ -1,0 +1,9 @@
+.root {
+  margin: 0 auto;
+}
+
+.row th,
+.row td {
+  padding: 0.25rem;
+  text-align: center;
+}

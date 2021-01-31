@@ -1,14 +1,33 @@
+import classes from "./LeaderBoard.module.css";
+
 function LeaderBoard({ scores }) {
-  return scores.map((entry, i) =>
-    i < 10 ? (
-      <div data-testid="leaderBoardEntry" key={entry.id}>
-        <span>{entry.name} </span>
-        <span>{entry.totalPoints} </span>
-        <span>{entry.clicks} </span>
-        <span>{entry.averagePoints} </span>
-        <span>{entry.id} </span>
-      </div>
-    ) : null
+  return (
+    <table className={classes.root}>
+      <thead className={classes.row}>
+        <tr className={classes.row}>
+          <th>Name</th>
+          <th>Total Points</th>
+          <th>Clicks</th>
+          <th>Average Points</th>
+        </tr>
+      </thead>
+      <tbody>
+        {scores.map((entry, i) =>
+          i < 10 ? (
+            <tr
+              className={classes.row}
+              data-testid="leaderBoardEntry"
+              key={entry.id}
+            >
+              <td>{entry.name}</td>
+              <td>{entry.totalPoints}</td>
+              <td>{entry.clicks}</td>
+              <td>{entry.averagePoints}</td>
+            </tr>
+          ) : null
+        )}
+      </tbody>
+    </table>
   );
 }
 
