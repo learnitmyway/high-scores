@@ -169,7 +169,7 @@ describe("Game", () => {
     userEvent.click(screen.getByText("UPDATE SCORE"));
     userEvent.click(screen.getByText("UPDATE SCORE"));
     userEvent.type(screen.getByLabelText("Name"), "David");
-    userEvent.click(screen.getByText("Send it!"));
+    userEvent.click(screen.getByText("Save"));
 
     expect(updateHighScore).toHaveBeenCalledWith({
       name: "David",
@@ -209,7 +209,7 @@ describe("Game", () => {
       },
     ]);
 
-    userEvent.click(screen.getByText("Send it!"));
+    userEvent.click(screen.getByText("Save"));
 
     await screen.findByText("180");
 
@@ -243,7 +243,7 @@ describe("Game", () => {
 
       updateHighScore.mockRejectedValue(new Error());
 
-      userEvent.click(screen.getByText("Send it!"));
+      userEvent.click(screen.getByText("Save"));
 
       await waitFor(() =>
         expect(

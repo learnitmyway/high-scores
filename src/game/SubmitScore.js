@@ -3,7 +3,7 @@ import classes from "./SubmitScore.module.css";
 
 function SubmitScore({ name, onChange, onSubmit, isSubmitError }) {
   return (
-    <section>
+    <section className={classes.root}>
       <label className={classes.label} htmlFor="submit-score-input">
         Name
       </label>
@@ -14,7 +14,7 @@ function SubmitScore({ name, onChange, onSubmit, isSubmitError }) {
         onChange={onChange}
         placeholder="NAME"
       />
-      <Button className={classes.button} onClick={onSubmit} text="Send it!" />
+      <Button className={classes.button} onClick={onSubmit} text="Save" />
       <span style={{ color: "red" }}>
         {isSubmitError && " Error: cannot submit score"}
       </span>
