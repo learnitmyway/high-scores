@@ -4,7 +4,7 @@ import { v4 as uuid } from "uuid";
 
 import { getHighScores, updateHighScore } from "./high-score.service";
 
-import App from "./App";
+import Game from "./Game";
 
 jest.mock("./high-score.service");
 jest.mock("uuid");
@@ -30,7 +30,7 @@ function highScoresSample() {
   ];
 }
 
-describe("App", () => {
+describe("Game", () => {
   beforeEach(() => {
     randomSpy = jest.spyOn(global.Math, "random");
     getHighScores.mockResolvedValue(highScoresSample());
@@ -42,7 +42,7 @@ describe("App", () => {
   });
 
   it("displays high scores", async () => {
-    render(<App />);
+    render(<Game />);
 
     expect(getHighScores).toHaveBeenCalledWith();
 
@@ -74,7 +74,7 @@ describe("App", () => {
 
     getHighScores.mockResolvedValue(highScores);
 
-    render(<App />);
+    render(<Game />);
 
     await screen.findAllByText(highScores[0].name);
 
@@ -101,7 +101,7 @@ describe("App", () => {
 
     getHighScores.mockResolvedValue(highScores);
 
-    render(<App />);
+    render(<Game />);
 
     const leaderBoardEntries = await screen.findAllByTestId("leaderBoardEntry");
 
@@ -112,7 +112,7 @@ describe("App", () => {
   });
 
   it("displays initial score and clicks remaining", async () => {
-    render(<App />);
+    render(<Game />);
     await screen.findByText(highScoresSample()[0].name);
 
     expect(screen.getByText("score 0")).toBeInTheDocument();
@@ -142,7 +142,7 @@ describe("App", () => {
     randomSpy.mockReturnValueOnce(0.9);
     randomSpy.mockReturnValueOnce(1);
 
-    render(<App />);
+    render(<Game />);
 
     await screen.findByText("New Player");
 
@@ -180,7 +180,7 @@ describe("App", () => {
     randomSpy.mockReturnValueOnce(0.9);
     randomSpy.mockReturnValueOnce(1);
 
-    render(<App />);
+    render(<Game />);
 
     await screen.findByText(highScoresSample()[0].name);
 
@@ -208,7 +208,7 @@ describe("App", () => {
 
     getHighScores.mockResolvedValueOnce(highScoresSample());
 
-    render(<App />);
+    render(<Game />);
 
     await screen.findByText(highScoresSample()[0].name);
 
@@ -244,7 +244,7 @@ describe("App", () => {
   });
 
   it("handles max clicks reached by displaying message and disabling button", async () => {
-    render(<App />);
+    render(<Game />);
 
     await screen.findByText(highScoresSample()[0].name);
 
@@ -266,7 +266,7 @@ describe("App", () => {
     it("handles GET error", async () => {
       getHighScores.mockRejectedValue(new Error());
 
-      render(<App />);
+      render(<Game />);
 
       await waitFor(() =>
         expect(
@@ -276,7 +276,7 @@ describe("App", () => {
     });
 
     it("handles submit error", async () => {
-      render(<App />);
+      render(<Game />);
 
       await screen.findByText(highScoresSample()[0].name);
 
